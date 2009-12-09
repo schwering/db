@@ -1,0 +1,7 @@
+SYNTAX:		UNION <relation>,<relation>
+	where	<relation> := <table> | $<view> | ( <query> )
+SEMANTIC:	Concatenates two relations.
+		The relations can be either (physically stored) tables, views
+		or any kinds of data-retrieving query.
+		The union is part of the relational algebra and a
+		data-retrieving query.

@@ -1,0 +1,46 @@
+#CreateDBs('i', 100000);
+#CreateDBs('j', 100000);
+
+profiling-on
+
+CreateDBs('i', 100000);
+CreateDBs('j', 100000);
+
+JOIN i,j ON i.i = j.i;
+JOIN i,j ON i.s = j.s;
+#JOIN i,j ON i.t = j.t;
+
+SORT i BY i.i;
+SORT i BY i.s;
+SORT i BY i.t;
+
+SELECT FROM i WHERE i.i >= 99;
+SELECT FROM i WHERE i.i >= 999;
+SELECT FROM i WHERE i.i >= 9999;
+
+SELECT FROM i WHERE i.s >= '99';
+SELECT FROM i WHERE i.s >= '999';
+SELECT FROM i WHERE i.s >= '9999';
+
+SELECT FROM i WHERE i.t >= '99';
+SELECT FROM i WHERE i.t >= '999';
+SELECT FROM i WHERE i.t >= '9999';
+
+UPDATE i SET i.t = '0' WHERE i.t < '5000';
+UPDATE i SET i.t = '0' WHERE i.t > '5000';
+
+UPDATE i SET i.s = '0' WHERE i.s < '5000';
+UPDATE i SET i.s = '0' WHERE i.s > '5000';
+
+SORT i BY i.i;
+SORT i BY i.s;
+SORT i BY i.t;
+
+DELETE i WHERE i.i < 5000;
+DELETE i WHERE i.i > 5000;
+DELETE i;
+
+profiling-off
+
+exit
+

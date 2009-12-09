@@ -1,0 +1,5 @@
+SYNTAX:		DROP TABLE | INDEX | VIEW ....
+SEMANTIC:	The `DROP' keyword leads all statements that have to do with
+		removal of databases or parts of them.
+		See `help drop table', `help drop index' and `help drop view'
+		for more information.

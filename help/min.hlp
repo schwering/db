@@ -1,0 +1,10 @@
+SYNTAX:		MIN ( <relation>, <attribute> )
+	where	<relation> := '<query>'
+		<attribute> := '<attribute-name>' | <attribute-index>
+SEMANTIC:	Calculates the minimum of all tupels in the specified attribute.
+		If the attribute's domain is STRING, the values are tried to
+		interpreted as real numbers.
+IMPLEMENTATION:	The MIN is a stored procedure whose sourcecode is located at
+		sp/min.sps.
+		Simply fullscans the relation and remembers the smallest seen
+		value.

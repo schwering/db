@@ -1,0 +1,17 @@
+<!ELEMENT book (booktitle, author)>
+<!ELEMENT article (title, author*, contactauthor)>
+<!ELEMENT contactauthor EMPTY>
+<!ATTLIST contactauthor authorID IDREF #IMPLIED>
+<!ELEMENT monograph (title, author, editor)>
+<!ELEMENT editor (monograph*)>
+<!ATTLIST editor name CDATA #REQUIRED>
+<!ELEMENT author (name, address)>
+<!ATTLIST author id ID #REQUIRED>
+<!ELEMENT name (firstname?, lastname)>
+<!ELEMENT firstname (#PCDATA)>
+<!ELEMENT lastname (#PCDATA)>
+<!ELEMENT booktitle (#PCDATA)>
+<!ELEMENT title (#PCDATA)>
+<!ELEMENT city (#PCDATA)>
+<!ELEMENT zip (#PCDATA)>
+<!ELEMENT address ANY>

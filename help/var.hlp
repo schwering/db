@@ -1,0 +1,17 @@
+SYNTAX:		VAR ( <relation>, <attribute> )
+	where	<relation> := '<query>'
+		<attribute> := '<attribute-name>' | <attribute-index>
+SEMANTIC:	Calculates the variance of all tupels in the specified
+		attribute.
+		If the attribute's domain is STRING their strlen()s are 
+		taken as values.
+IMPLEMENTATION:	The joke is, that VAR isn't currently implemented at all. If
+		it would be, it was an stored procedure whose sourcecode was
+		located at sp/var.sps.
+		The implementation calculates the variance as follows (tmp_i
+		calculates the average of the squares):
+			tmp_{i+1} := i/(i+1) * tmp_i  +  1/(i+1) * val_{i+1}^2,
+			avg_{i+1} := i/(i+1) * avg_i  +  1/(i+1) * val_{i+1},
+		and then
+			var := tmp_n  -  avg_n^2.
+		First tests have shown this surprisingly accurate.

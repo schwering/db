@@ -1,0 +1,9 @@
+SYNTAX:		SUM ( <relation>, <attribute> )
+	where	<relation> := '<query>'
+		<attribute> := '<attribute-name>' | <attribute-index>
+SEMANTIC:	Calculates the sum of all tupels in the specified attribute.
+		If the attribute's domain is STRING their strlen()s are 
+		taken as values.
+IMPLEMENTATION:	The joke is, that SUM isn't currently implemented at all. If
+		it would be, it was an stored procedure whose sourcecode was
+		located at sp/sum.sps.

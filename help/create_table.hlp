@@ -1,0 +1,32 @@
+SYNTAX:		CREATE TABLE <table> ( <declaration-list> )
+	where	<declaration-list> := comma-separated list of <declarations>
+		<declaration> := <attribute> <type> [ <key> ]
+		<type> := INT | UINT | LONG | ULONG | FLOAT | DOUBLE
+			| STRING (<length>) | BYTES (<length>)
+		<key> := PRIMARY KEY | FOREIGN KEY (<reftable>, <refattribute>)
+SEMANTIC:	Creates a new relation with name `table' with the specified
+		attributes. Each attribute has a name (by which we refer to it),
+		a type and optionally it can be a key.
+		The available types are (U)INT ((unsigned) integer), (U)LONG
+		((unsigned) long integer), FLOAT (floating point number),
+		DOUBLE (floating point number with double precision) and
+		STRING (a string of a fixed maximum length) or BYTES 
+		(same like STRING but not \0-terminated; not yet fully
+		supported).
+		In later statements, UINT values must be distinguished by the
+		trailing character 'U' (e.g. 123U), LONG values must be
+		distinguished from INT values with a trailing 'L' (e.g. 
+		123456678L), ULONGs from LONGs must be distinguished with an
+		additional 'U' (e.g. 1234566789UL). Generally, floating point
+		values are distinguished from integer values by the existence
+		of a point ('.'). A FLOAT is distinguished from a DOUBLE 
+		value with a trailing 'F' (e.g. 1.23F).
+		If an attribute is marked as primary key, its values must and
+		will be unique in the relation. A primary key can become a
+		foreign key of other relations. It is stored in a B+ tree.
+		The FOREIGN KEY keyword makes dingsbums create a reference from
+		the respective attribute a referenced attribute (refattribute)
+		in a referenced table (reftable). The referenced attribute 
+		must be a primary key of the referenced table. This procedure
+		implicitely creates a secondary index of the attribute of 
+		the newly created relation.

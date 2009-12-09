@@ -1,0 +1,5 @@
+SYNTAX:		CREATE TABLE | INDEX | VIEW ....
+SEMANTIC:	The `CREATE' keyword leads all statements that have to do with
+		database definition or definition of parts of a database.
+		See `help create table', `help create index' and `help create
+		view' for more information.

@@ -1,0 +1,78 @@
+#! ./terminal
+
+#This queries demonstrate dingsbums' foreign key management.
+
+DROP TABLE Teile;
+
+CREATE TABLE Teile (Id UINT PRIMARY KEY, Name STRING(64));
+INSERT INTO Teile (Teile.Id, Teile.Name) VALUES (1U, 'Land');
+INSERT INTO Teile (Teile.Id, Teile.Name) VALUES (2U, 'Autobahn');
+INSERT INTO Teile (Teile.Id, Teile.Name) VALUES (3U, 'Asphalt');
+INSERT INTO Teile (Teile.Id, Teile.Name) VALUES (4U, 'Fahrbahnbegrenzung');
+INSERT INTO Teile (Teile.Id, Teile.Name) VALUES (5U, 'Bepflanzung');
+INSERT INTO Teile (Teile.Id, Teile.Name) VALUES (6U, 'Schilder');
+INSERT INTO Teile (Teile.Id, Teile.Name) VALUES (7U, 'Mittelstreifen');
+INSERT INTO Teile (Teile.Id, Teile.Name) VALUES (8U, 'Randstreifen');
+INSERT INTO Teile (Teile.Id, Teile.Name) VALUES (9U, 'Auto');
+INSERT INTO Teile (Teile.Id, Teile.Name) VALUES (10U, 'Rad');
+INSERT INTO Teile (Teile.Id, Teile.Name) VALUES (11U, 'Benzin');
+INSERT INTO Teile (Teile.Id, Teile.Name) VALUES (12U, 'Tankstelle');
+
+CREATE TABLE Beziehungen (Id ULONG PRIMARY KEY, Subjekt UINT FOREIGN KEY(Teile, Id), Objekt UINT FOREIGN KEY(Teile, Id));
+CREATE TABLE Beschreibungen (Beziehung ULONG FOREIGN KEY(Beziehungen, Id), Beschr STRING(64));
+
+INSERT INTO Beziehungen (Beziehungen.Id, Beziehungen.Subjekt, Beziehungen.Objekt) VALUES (1UL, 1U, 2U);
+INSERT INTO Beschreibungen (Beschreibungen.Beziehung, Beschreibungen.Beschr) VALUES (1UL, 'Land braucht Autobahn');
+
+INSERT INTO Beziehungen (Beziehungen.Id, Beziehungen.Subjekt, Beziehungen.Objekt) VALUES (2UL, 2U, 3U);
+INSERT INTO Beschreibungen (Beschreibungen.Beziehung, Beschreibungen.Beschr) VALUES (2UL, 'Autobahn braucht Asphalt');
+
+INSERT INTO Beziehungen (Beziehungen.Id, Beziehungen.Subjekt, Beziehungen.Objekt) VALUES (3UL, 2U, 4U);
+INSERT INTO Beschreibungen (Beschreibungen.Beziehung, Beschreibungen.Beschr) VALUES (3UL, 'Autobahn braucht Fahrbahnbegrenzung');
+
+INSERT INTO Beziehungen (Beziehungen.Id, Beziehungen.Subjekt, Beziehungen.Objekt) VALUES (4UL, 2U, 5U);
+INSERT INTO Beschreibungen (Beschreibungen.Beziehung, Beschreibungen.Beschr) VALUES (4UL, 'Autobahn braucht Bepflanzung');
+
+INSERT INTO Beziehungen (Beziehungen.Id, Beziehungen.Subjekt, Beziehungen.Objekt) VALUES (5UL, 2U, 6U);
+INSERT INTO Beschreibungen (Beschreibungen.Beziehung, Beschreibungen.Beschr) VALUES (5UL, 'Autobahn braucht Schilder');
+
+INSERT INTO Beziehungen (Beziehungen.Id, Beziehungen.Subjekt, Beziehungen.Objekt) VALUES (6UL, 2U, 7U);
+INSERT INTO Beschreibungen (Beschreibungen.Beziehung, Beschreibungen.Beschr) VALUES (6UL, 'Autobahn braucht Mittelstreifen');
+
+INSERT INTO Beziehungen (Beziehungen.Id, Beziehungen.Subjekt, Beziehungen.Objekt) VALUES (7UL, 2U, 8U);
+INSERT INTO Beschreibungen (Beschreibungen.Beziehung, Beschreibungen.Beschr) VALUES (7UL, 'Autobahn braucht Randstreifen');
+
+INSERT INTO Beziehungen (Beziehungen.Id, Beziehungen.Subjekt, Beziehungen.Objekt) VALUES (8UL, 2U, 9U);
+INSERT INTO Beschreibungen (Beschreibungen.Beziehung, Beschreibungen.Beschr) VALUES (8UL, 'Autobahn braucht Auto');
+
+INSERT INTO Beziehungen (Beziehungen.Id, Beziehungen.Subjekt, Beziehungen.Objekt) VALUES (9UL, 9U, 10U);
+INSERT INTO Beschreibungen (Beschreibungen.Beziehung, Beschreibungen.Beschr) VALUES (9UL, 'Auto braucht Rad');
+
+INSERT INTO Beziehungen (Beziehungen.Id, Beziehungen.Subjekt, Beziehungen.Objekt) VALUES (10UL, 9U, 11);
+INSERT INTO Beschreibungen (Beschreibungen.Beziehung, Beschreibungen.Beschr) VALUES (10UL, 'Auto braucht Benzin');
+
+INSERT INTO Beziehungen (Beziehungen.Id, Beziehungen.Subjekt, Beziehungen.Objekt) VALUES (11UL, 9U, 12U);
+INSERT INTO Beschreibungen (Beschreibungen.Beziehung, Beschreibungen.Beschr) VALUES (11UL, 'Auto braucht Tankstelle ');
+
+INSERT INTO Beziehungen (Beziehungen.Id, Beziehungen.Subjekt, Beziehungen.Objekt) VALUES (12UL, 12U, 1U);
+INSERT INTO Beschreibungen (Beschreibungen.Beziehung, Beschreibungen.Beschr) VALUES (12UL, 'Tankstelle braucht Land');
+
+INSERT INTO Beziehungen (Beziehungen.Id, Beziehungen.Subjekt, Beziehungen.Objekt) VALUES (13UL, 12U, 9U);
+INSERT INTO Beschreibungen (Beschreibungen.Beziehung, Beschreibungen.Beschr) VALUES (13UL, 'Tankstelle braucht Auto');
+
+
+SELECT FROM Teile;
+SELECT FROM Beziehungen;
+SELECT FROM Beschreibungen;
+JOIN Teile, Beziehungen ON Teile.Id = Beziehungen.Subjekt;
+JOIN (JOIN Teile, Beziehungen ON Teile.Id = Beziehungen.Subjekt), Beschreibungen ON Beziehungen.Id = Beschreibungen.Beziehung;
+
+# Ok, now delete Auto (Id 9)
+UPDATE Teile SET Teile.Id = 99U WHERE Teile.Name = 'Auto';
+DELETE Teile WHERE Teile.Id = 99U;
+
+SELECT FROM Teile;
+SELECT FROM Beziehungen;
+SELECT FROM Beschreibungen;
+JOIN Teile, Beziehungen ON Teile.Id = Beziehungen.Subjekt;
+JOIN (JOIN Teile, Beziehungen ON Teile.Id = Beziehungen.Subjekt), Beschreibungen ON Beziehungen.Id = Beschreibungen.Beziehung;

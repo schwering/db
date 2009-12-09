@@ -1,0 +1,27 @@
+SYNTAX:		JOIN <relation>,<relation> [ WHERE <expr> ]
+	where	<relation> := <table> | $<view> | ( <query> )
+		<expr> := <expr> AND <expr> 
+		<expr> := <expr> OR <expr> 
+		<expr> := ( <expr> )
+		<expr> := <attribute> <rel> <value>
+		<attribute> := <table>.<attribute-name>
+		<rel> := = | < | <= | > | >= | !=
+		<value> := <integer> | <float> | '<string>'
+SEMANTIC:	Joins two relations. This kind of join is also called inner
+		join. Two tuples of the left and right relation are joined
+		if they match the WHERE expression. If no WHERE clause is
+		specified, a natural join is specified, i.e. two tuples are
+		joined if they have the same values in those attributes of the
+		two relations that have the same name and the same domain.
+		The relations can be either (physically stored) tables, views
+		or any kinds of data-retrieving query.
+		The join is part of the relational algebra and a
+		data-retrieving query.
+IMPLEMENTATION:	Note that dingsbums converts WHERE expressions into disjunctive
+		normal form, i.e. A OR B OR ... OR Z with A = a AND ... AND z.
+		Dingsbums processes the join operation for each of the 
+		conjunections A, B, ..., Z consecutively.
+		Hence, OR expressions might result in much more work for 
+		dingsbums than AND expressions.
+		Dingsbums tries to take advantage of existing indexes (primary
+		or secondary ones) to filter tuples.

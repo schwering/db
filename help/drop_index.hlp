@@ -1,0 +1,3 @@
+SYNTAX:		DROP INDEX ON <table> ( <attribute> )
+SEMANTIC:	Removes an index that was created by CREATE INDEX or as a
+		foreign key in a CREATE TABLE statement.

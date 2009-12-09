@@ -1,0 +1,32 @@
+Dingsbums PHP extension.
+
+To install, perform the following steps (either automagical or manual 
+installation):
+
+
+(1) Automatical installation:
+$ ./install.sh
+
+Thanks to Carsten Rudolf Rudi Wiesbaum ;-)
+
+
+(2) Manual installation:
+
+$ phpize 
+$ ./configure --enable-dingsbums 
+! Now modify the `Makefile': append ``-L..db/db -ldb'' to the LDFLAGS and
+! ``-I../db'' to the CFLAGS variable. !!
+$ make 
+$ sudo cp modules/dingsbums.so <PHP_EXTENSION_DIR>/dingsbums.so 
+! The PHP_EXTENSION_DIR is something like ``/usr/lib/php5/20060613+lfs''.
+! If you don't find it, search for it in the ``php.ini''.
+! Now modify the ``php.ini'', search for the *.so extensions and add a line:
+! ``extension=dingsbums.so''
+
+
+Check the test.php.
+
+
+IMPORTANT: The extension probably has memory leaks and is behind the development
+of dingsbums database itself.
+

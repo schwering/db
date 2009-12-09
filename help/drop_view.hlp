@@ -1,0 +1,5 @@
+SYNTAX:		DROP VIEW <view>
+SEMANTIC:	Removes a view.
+		The only affected (i.e. deleted) file is the file that 
+		contains the view's database query (i.e. the view itself).
+		This file has the *.vw suffix.

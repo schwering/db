@@ -1,0 +1,14 @@
+SYNTAX:		INSERT INTO <table> (<attribute-list>) VALUES (<value-list>)
+	where	<attribute->list> := a comma-separated list of <attribute>s
+		<attribute> := <table>.<attribute-name>
+		<value-list> := a comma-separated list of <value>s
+		<value> := <integer> | <float> | '<string>'
+SEMANTIC:	Inserts a new tuple into a table.
+		The attribute list must be complete, but it may vary in order
+		in relation to the order attributes in the table.
+		Note that currently, the attriubtes must be given including the
+		table name (<table>.<attribute>), although this information is
+		obviously redundant.
+		The list of values must correspond to the domains of the 
+		attributes. Note that a float always has a `.' (which 
+		identifies it as float): 1.0 is a float, 1 is an int.

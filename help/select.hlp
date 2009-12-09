@@ -1,0 +1,24 @@
+SYNTAX:		SELECT FROM <relation> [ WHERE <expr> ]
+	where	<relation> := <table> | $<view> | ( <query> )
+		<expr> := <expr> AND <expr> 
+		<expr> := <expr> OR <expr> 
+		<expr> := ( <expr> )
+		<expr> := <attribute> <rel> <value>
+		<attribute> := <table>.<attribute-name>
+		<rel> := = | < | <= | > | >= | !=
+		<value> := <integer> | <float> | '<string>'
+SEMANTIC:	Performs a selection filtering those tuples out that do not
+		match the WHERE expression. If no WHERE clause is specified,
+		the complete relation is returned.
+		The relation can be either a (physically stored) table, a
+		view or any kind of data-retrieving query.
+		The selection is part of the relational algebra and a
+		data-retrieving query.
+IMPLEMENTATION:	Note that dingsbums converts WHERE expressions into disjunctive
+		normal form, i.e. A OR B OR ... OR Z with A = a AND ... AND z.
+		Dingsbums processes the selection operation for each of the 
+		conjunections A, B, ..., Z consecutively.
+		Hence, OR expressions might result in much more work for 
+		dingsbums than AND expressions.
+		Dingsbums tries to take advantage of existing indexes (primary
+		or secondary ones) to filter tuples.

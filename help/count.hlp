@@ -1,0 +1,7 @@
+SYNTAX:		COUNT ( <relation> )
+	where	<relation> := '<query>'
+SEMANTIC:	Determines the number of tuples in the relation.
+IMPLEMENTATION:	The COUNT is a stored procedure whose sourcecode is located at
+		sp/count.sps.
+		Does nothing more than a fullscan and increment a counter
+		for each tuple read. That's not the fastest way :-).

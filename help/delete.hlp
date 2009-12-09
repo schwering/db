@@ -1,0 +1,18 @@
+SYNTAX:		DELETE <table> [ WHERE <expr> ]
+	where	<expr> := <expr> AND <expr> 
+		<expr> := <expr> OR <expr> 
+		<expr> := ( <expr> )
+		<expr> := <attribute> <rel> <value>
+		<attribute> := <table>.<attribute-name>
+		<rel> := = | < | <= | > | >= | !=
+		<value> := <integer> | <float> | '<string>'
+SEMANTIC:	Deletes tuples from a table. If the optional WHERE clause
+		is specified, only those tuples are deleted that match <epxr>.
+		The expression can be a predicate logic formula with AND
+		and OR and the relations `=', `<', `<=', `>', `>=', `!='.
+		The comparisons can be made between attributes and concrete
+		values.
+		Remember that floats differ from ints by the contained `.'
+		and strings are surrounded by apostrophes.
+		Note that attributes are described by both, the table name
+		and the attribute name (<table>.<attribute>).

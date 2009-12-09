@@ -1,0 +1,32 @@
+SYNTAX:		UPDATE <table> SET <assignment-list> [ WHERE <expr> ]
+	where	<asssignment-list> := a comma-separated list of <assignment>s
+		<assignment> := <attribute> = <value>
+		<expr> := <expr> AND <expr> 
+		<expr> := <expr> OR <expr> 
+		<expr> := ( <expr> )
+		<expr> := <attribute> <rel> <value>
+		<attribute> := <table>.<attribute-name>
+		<rel> := = | < | <= | > | >= | !=
+		<value> := <integer> | <float> | '<string>'
+SEMANTIC:	Updates one or more attributes of the tuples of a table. If
+		the optional WHERE clause is specified, only those tuples are
+		updated that match <epxr>.
+		The assignment list contains values and attributes which once 
+		more are identified by the table name and the attribute name 
+		(<table>.<attribute>) which is once agian senseless.
+		The expression can be a predicate logic formula with AND
+		and OR and the relations `=', `<', `<=', `>', `>=', `!='.
+		The comparisons can be made between attributes and concrete
+		values.
+		Remember that floats differ from ints by the contained `.'
+		and strings are surrounded by apostrophes.
+		Note that attributes are described by both, the table name
+		and the attribute name (<table>.<attribute>).
+IMPLEMENTATION:	Note that dingsbums converts WHERE expressions into disjunctive
+		normal form, i.e. A OR B OR ... OR Z with A = a AND ... AND z.
+		Dingsbums processes the update operation for each of the 
+		conjunections A, B, ..., Z consecutively.
+		Hence, OR expressions might result in much more work for 
+		dingsbums than AND expressions.
+		Dingsbums tries to take advantage of existing indexes (primary
+		or secondary ones) to filter tuples.

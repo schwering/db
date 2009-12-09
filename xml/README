@@ -1,0 +1,31 @@
+The XML-to-relational mapping for dingsbums.
+Status: far from being stabled (almost untested).
+
+It uses Xerces-C++ as XML parser.
+
+Some points need to be said about it:
+
+1. The code is written in C++, probably bad C++. The project's goal was to
+   learn C++.
+
+2. The only mapping implemented yet is a naive one that maps each element to
+   one relation.
+   One could implement additional mappings more or less easily.
+
+3. There are still many issues with certain XML constructs.
+   The most of them are still unknown (I guess). Those that I know include
+   elements whose model is #PCDATA mixed with other XML code. 
+   Such XML data cannot be processed at the moment.  The problem is twofold:
+   Firstly, Xerces seems to handle these elements a way I don't understand
+   (I didn't investigate it really yet, though), secondly the XMLElement class
+   doesn't support it yet (i.e. if such constructs could be stored, they
+   couldn't be read out of the database yet).
+
+4. The query ``language'' is a subset of XPath. Maybe it even isn't a subset,
+   but it's similar to the abbreviated syntax of XPath:
+	/e/f/g
+   returns content of the elements g in elements f in elements e.
+   Nothing more is supported.
+   It is planned (and the code is mostly prepared for it) to support some
+   conditions for expressions like /e[a=Furz]/f/g or so.
+

@@ -1,0 +1,4 @@
+SYNTAX:		CREATE INDEX ON <table> ( <attribute> )
+SEMANTIC:	Creates a secondary index of the respective attribute.
+		The index is a B+ Tree. Selections and similar operations 
+		make use of indices to speed up searching.

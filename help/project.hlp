@@ -1,0 +1,12 @@
+SYNTAX:		PROJECT <relation> OVER <attribute-list>
+	where	<relation> := <table> | $<view> | ( <query> )
+		<attribute-list> := a comma-separated list of <attribute>s
+		<attribute> := <table>.<attribute-name>
+		<rel> := = | < | <= | > | >= | !=
+		<value> := <integer> | <float> | '<string>'
+SEMANTIC:	Reduces the attributes of <relation> to those specified in
+		in the attribute list, i.e. it leaves out some columns.
+		The relation can be either a (physically stored) table, a
+		view or any kind of data-retrieving query.
+		The projection is part of the relational algebra and a
+		data-retrieving query.

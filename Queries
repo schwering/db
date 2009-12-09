@@ -1,0 +1,105 @@
+#! ./terminal
+
+# removes salaries and places because of foreign keys
+DROP TABLE people;
+
+
+CREATE TABLE people (name STRING(128) PRIMARY KEY, descr STRING(512));
+INSERT INTO people (people.name, people.descr) VALUES ('Eduard Piepenbrock', 'Toller Mann');
+INSERT INTO people (people.name, people.descr) VALUES ('Franz Piepenbrock', 'Eine beeindruckende Persoenlichkeit, schon allein wegen seiner Koerperfuelle');
+INSERT INTO people (people.name, people.descr) VALUES ('Mueller', 'Eine 0815 Person');
+INSERT INTO people (people.name, people.descr) VALUES ('Jupp Schmitz', 'Ein Bauer');
+INSERT INTO people (people.name, people.descr) VALUES ('Peter Schmitz', 'Noch ein Bauer');
+INSERT INTO people (people.name, people.descr) VALUES ('Jupp Heynkes', 'Noch ein Bauer');
+INSERT INTO people (people.name, people.descr) VALUES ('Annemarie Roestens', 'Noch ein Bauer');
+INSERT INTO people (people.name, people.descr) VALUES ('Rosemarie Blumenthal', 'Des Simons Frau?');
+INSERT INTO people (people.name, people.descr) VALUES ('Simon Blumenthal', 'Der Mathematiker?');
+INSERT INTO people (people.name, people.descr) VALUES ('Simon Mueller', 'Kollege');
+INSERT INTO people (people.name, people.descr) VALUES ('Verena Schmitlein', 'Kollegin');
+INSERT INTO people (people.name, people.descr) VALUES ('Julia Brumster', 'Kollegin');
+INSERT INTO people (people.name, people.descr) VALUES ('Jule', 'Trimmes Name');
+INSERT INTO people (people.name, people.descr) VALUES ('Niklas Pferd', 'Kollege');
+INSERT INTO people (people.name, people.descr) VALUES ('Stephan Gebruell', 'BMW');
+INSERT INTO people (people.name, people.descr) VALUES ('Ursula Blumenkohl', 'Dem Gebruell seine Chefin');
+INSERT INTO people (people.name, people.descr) VALUES ('Eva Puhpsi', 'Hatten wir die noch nicht?');
+count people SELECT FROM people;
+assert people = 17
+
+CREATE TABLE salaries (name STRING(128) FOREIGN KEY(people,name), age INT, salary FLOAT);
+CREATE INDEX ON salaries (age);
+INSERT INTO salaries (salaries.name, salaries.age, salaries.salary) VALUES ('Eduard Piepenbrock', 21, 10.0F);
+INSERT INTO salaries (salaries.name, salaries.age, salaries.salary) VALUES ('Franz Piepenbrock', 57, 13.1F);
+INSERT INTO salaries (salaries.name, salaries.age, salaries.salary) VALUES ('Mueller', 30, 53.1F);
+INSERT INTO salaries (salaries.name, salaries.age, salaries.salary) VALUES ('Jule', 21, 123.456F);
+INSERT INTO salaries (salaries.name, salaries.age, salaries.salary) VALUES ('Simon Blumenthal', 120, -1.0F);
+INSERT INTO salaries (salaries.name, salaries.age, salaries.salary) VALUES ('Rosemarie Blumenthal', 120, -1.0F);
+INSERT INTO salaries (salaries.name, salaries.age, salaries.salary) VALUES ('Eva Puhpsi', 22, 400.0F);
+INSERT INTO salaries (salaries.name, salaries.age, salaries.salary) VALUES ('Niklas Pferd', 21, 400.0F);
+INSERT INTO salaries (salaries.name, salaries.age, salaries.salary) VALUES ('Verena Schmitlein', 21, 3.1457F);
+INSERT INTO salaries (salaries.name, salaries.age, salaries.salary) VALUES ('Konfliktdoof', 100, 6.0F);
+count salaries SELECT FROM salaries;
+assert salaries = 9
+
+CREATE TABLE places (place STRING(512), name STRING(128) FOREIGN KEY(people,name));
+INSERT INTO places (places.name, places.place) VALUES ('Eduard Piepenbrock', 'Aachen');
+INSERT INTO places (places.name, places.place) VALUES ('Niklas Pferd', 'Aachen');
+INSERT INTO places (places.name, places.place) VALUES ('Eva Puhpsi', 'Koblenz');
+INSERT INTO places (places.name, places.place) VALUES ('Franz Piepenbrock', 'Euskirchen');
+INSERT INTO places (places.name, places.place) VALUES ('Jupp Schmitz', 'Bonn');
+INSERT INTO places (places.name, places.place) VALUES ('Simon Mueller', 'Wuppertal');
+INSERT INTO places (places.name, places.place) VALUES ('Jule', 'Koeln');
+INSERT INTO places (places.name, places.place) VALUES ('Verena Schmitlein', 'Euskirchen');
+INSERT INTO places (places.name, places.place) VALUES ('Stephan Gebruell', 'Aachen');
+INSERT INTO places (places.name, places.place) VALUES ('Stephan Gebruell', 'Euskirchen 2');
+count places SELECT FROM places;
+assert places = 10
+
+
+SELECT FROM people;
+SELECT FROM salaries;
+SELECT FROM places;
+
+DROP VIEW $peoplesalaries;
+DROP VIEW $peopleplaces;
+DROP VIEW $niceView;
+CREATE VIEW $peoplesalaries AS JOIN people, salaries;
+CREATE VIEW $peopleplaces AS JOIN people, places;
+
+JOIN $peoplesalaries, places;
+SORT (JOIN $peopleplaces, salaries) BY people.name;
+
+CREATE VIEW $niceView AS SORT ( PROJECT ( JOIN (JOIN people, places), salaries ) OVER people.name, people.descr, places.place, salaries.age, salaries.salary ) BY people.name;
+SELECT FROM $niceView;
+SELECT FROM $niceView WHERE salaries.age <= 30;
+
+count julia_brumster SELECT FROM people WHERE people.name = 'Julia Brumster';
+DELETE people WHERE people.name = 'Julia Brumster';
+count people2 SELECT FROM people;
+assert julia_brumster > 0
+assert people2 = people-julia_brumster
+
+count jule SELECT FROM people WHERE people.name = 'Jule';
+UPDATE people SET people.name = 'Julia Brumster' WHERE people.name = 'Jule';
+count julia_brumster SELECT FROM people WHERE people.name = 'Julia Brumster';
+assert jule = julia_brumster
+
+SELECT FROM $niceView WHERE salaries.age <= 30;
+
+count people SELECT FROM people;
+INSERT INTO people (people.name, people.descr) VALUES ('Carsten \'Rudi\' Ruediger', 'Auch \'Rudolf\' genannt');
+count people2 SELECT FROM people;
+assert people+1 = people2
+
+SELECT FROM people WHERE people.name = 'Carsten \'Rudi\' Ruediger';
+
+MIN('SELECT FROM salaries', 'name');
+MAX('SELECT FROM salaries', 'name');
+AVG('SELECT FROM salaries', 'name');
+
+MIN('SELECT FROM salaries', 'age');
+MAX('SELECT FROM salaries', 'age');
+AVG('SELECT FROM salaries', 'age');
+
+MIN('SELECT FROM salaries', 'salary');
+MAX('SELECT FROM salaries', 'salary');
+AVG('SELECT FROM salaries', 'salary');

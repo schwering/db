@@ -1,0 +1,16 @@
+SYNTAX:		SORT <relation> BY <order-list>
+	where	<order-list> := a comma-separated list of <order>s
+		<order> := <attribute> [ ASC | DESC ]
+		<attribute> := <table>.<attribute-name>
+SEMANTIC:	Sorts a relation by one or more specified attributes. The 
+		implicit order is ascending.
+		The relation can be either a (physically stored) table, a
+		view or any kind of data-retrieving query.
+		The selection is not part of the relational algebra in the
+		strict sense, but it is a data-retrieving query.
+IMPLEMENTATION:	Note that the sort operation does `external sorting' which
+		means that the complete relation is written to disk and then
+		sorted. The number of required read- and write-operations is
+		O(n log(n)) where n is the size of the relation. Also consider
+		a sort operation might use much disk space if the relation is
+		large.

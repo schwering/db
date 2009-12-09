@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="yes"?>
+<!DOCTYPE book [
+<!ELEMENT book (booktitle, author, contactauthor?)>
+<!ELEMENT article (title, author*, contactauthor)>
+<!ELEMENT contactauthor EMPTY>
+<!ATTLIST contactauthor authorID IDREF #IMPLIED>
+<!ELEMENT monograph (title, author, editor)>
+<!ELEMENT editor (monograph*)>
+<!ATTLIST editor name CDATA #REQUIRED>
+<!ELEMENT author (name*, address)>
+<!ATTLIST author id ID #REQUIRED>
+<!ELEMENT name (firstname, lastname)>
+<!ELEMENT firstname (#PCDATA)>
+<!ATTLIST firstname DBT CDATA #FIXED "STRING(128)">
+<!ELEMENT lastname (#PCDATA)>
+<!ELEMENT booktitle (#PCDATA)>
+<!ELEMENT title (#PCDATA)>
+<!--<!ENTITY % data "(#PCDATA)">-->
+<!--<!ELEMENT address ((zip, city)|(%data;))>-->
+<!ELEMENT address (city|zip)*>
+<!--<!ELEMENT address (zip, city)>-->
+<!ELEMENT city (#PCDATA)>
+<!ELEMENT zip (#PCDATA)>
+<!ATTLIST zip test CDATA #IMPLIED
+	      DBTtest CDATA #FIXED "STRING(63)">
+<!ENTITY writer "Ho Chi">
+]>
+<book>
+	<booktitle>The Selfish Gene</booktitle>
+	<author id="dawkins">
+		<name>
+			<firstname>Peter</firstname>
+			<lastname>Pan</lastname>
+		</name>
+		<name>
+			<firstname>Richard</firstname>
+			<lastname>Dawkins</lastname>
+		</name>
+		<name>
+			<firstname>Arno</firstname>
+			<lastname>Superman</lastname>
+		</name>
+		<address>
+			<zip>99999</zip>
+			<city>Timbuktu</city>
+		</address>
+	</author>
+	<!--<contactauthor authorID="dawkins"></contactauthor>-->
+</book>
+

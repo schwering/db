@@ -1,0 +1,13 @@
+SYNTAX:		CREATE VIEW $<view> AS (<query>)
+	where	<query> := <selection> | <projection> | <join> | <sort> ...
+SEMANTIC:	Creates a new view. A view is identified by a leading `$'
+		in all database statements.
+		A view can be any kind of combination of data-retrieving
+		statements, such as a SELECT, JOIN or SORT statement.
+		These statements need to be enclosed by brackets.
+		Instead of a statement, it is possible (but senseless) to 
+		directly assign the new view to a complete table, in which 
+		case the brackets are not needed.
+		The query can be any combination of data-retrieving statements.
+		The views can only be used in data-retrieving statements, 
+		not in data-modifying statements (INSERT, UPDATE, DELETE).

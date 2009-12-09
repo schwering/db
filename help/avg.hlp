@@ -1,0 +1,12 @@
+SYNTAX:		AVG ( <relation>, <attribute> )
+	where	<relation> := '<query>'
+		<attribute> := '<attribute-name>' | <attribute-index>
+SEMANTIC:	Calculates the average of all tupels in the specified attribute.
+		If the attribute's domain is STRING, each string is interpreted
+		as real number; if it no STRING representation of a number, the
+		default value is 0.0.
+IMPLEMENTATION:	The AVG is a stored procedure whose sourcecode is located at
+		sp/avg.sps.
+		The implementation calculates the average as follows:
+			avg_{i+1} := i/(i+1) * avg_i  +  1/(i+1) * val_{i+1}.
+		First tests have shown this surprisingly accurate.

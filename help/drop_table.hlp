@@ -1,0 +1,6 @@
+SYNTAX:		DROP TABLE <table>
+SEMANTIC:	Removes a table.
+		Note that referencing tables (those who have foreign keys 
+		pointing to the to-be-deleted table) are not affected.
+		The deleted files are the relation's tuple file (*.db),
+		all indexes (*.*.ix) and the reference list (*.refs).
